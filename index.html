@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+	<head>
+		<title>TicTacToes</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.0/jquery.mobile-1.0.min.css" />
+		<script type="text/javascript" src="http://code.jquery.com/jquery-1.6.4.min.js"></script>
+		<script type="text/javascript" src="http://code.jquery.com/mobile/1.0/jquery.mobile-1.0.min.js"></script>
+		<style type="text/css">
+			table.center {
+			    margin-left:auto; 
+			    margin-right:auto;
+			}
+			table tr td{
+				width: 100px;
+				height:100px;
+				padding:0px;
+			}
+			.border-right{
+				border-style:solid;
+				border-right:thick solid black; 
+				border-collapse:collapse;
+			}
+			.border-top{
+				border-style:solid;
+				border-top:thick solid black; 
+				border-collapse:collapse;
+			}
+		</style>
+		<script type="application/javascript">
+			function clearScore(){
+				document.getElementById("score-human").innerText = 0;
+				document.getElementById("score-computer").innerText = 0;
+				document.getElementById("score-tie").innerText = 0;
+			}
+			function updateScore(player){
+				console.info("update score for player " + player);
+				if(player == 1){
+					console.info(document.getElementById("score-computer"));
+					var score = parseInt(document.getElementById("score-human").innerText);
+					console.info("human score is " + score);
+					score++;
+					document.getElementById("score-human").innerText = score;
+				}
+				if(player == 2){
+					console.info(document.getElementById("score-computer"));
+					var score = parseInt(document.getElementById("score-computer").innerText);
+					score++;
+					console.info("computer score is " + score);
+					document.getElementById("score-computer").innerText = score;
+				}
+				if(player == 3){
+					console.info(document.getElementById("score-tie"));
+					var score = parseInt(document.getElementById("score-tie").innerText);
+					score++;
+					console.info("tie score is " + score);
+					document.getElementById("score-tie").innerText = score;
+				}
+			}
+			var board = Array(0, 0, 0, 0, 0, 0, 0, 0, 0);
+			function reset(){
+				for(var x=0; x<=8; x++){
+					console.info('reseting board' + x);
+					board[x]=0;
+					document.getElementById(x).innerText = "";
+				}
+			}
+			function gameOver(player){
+				console.info("check for win" + player);
+				updateScore(player);
+				if(player == 1){
+					alert("you won!");
+					reset();
+					return true;
+				}
+				if(player == 2){
+					alert("computer won!");
+					reset();
+					return true;
+				}
+				if(player == 3){
+					alert("tie game!");
+					reset();
+					return true;
+				}
+				return false;				
+			}
+			function move(id){
+				if(board[id]!=0){
+					return;
+				}
+				console.info("placing move " + id);
+				document.getElementById(id).innerText = "X";
+				board[id] = 1;
+				console.info(board);
+				var winner = checkForWin();
+				console.info("winner is " + winner);
+				if(winner != 0){
+					gameOver(winner);
+					return;
+				}			
+				computerMove()
+			}
+			function checkForWin(){
+				//top row
+				if(board[0] == 1 && board[1] == 1 && board[2] == 1){
+					return 1;
+				}
+				if(board[0] == 2 && board[1] == 2 && board[2] == 2){
+					return 2;
+				}
+				//middle row
+				if(board[3] == 1 && board[4] == 1 && board[5] == 1){
+					return 1;
+				}
+				if(board[3] == 2 && board[4] == 2 && board[5] == 2){
+					return 2;
+				}
+				//bottom row
+				if(board[6] == 1 && board[7] == 1 && board[8] == 1){
+					return 1;
+				}
+				if(board[6] == 2 && board[7] == 2 && board[8] == 2){
+					return 2;
+				}
+				//first column
+				if(board[0] == 1 && board[3] == 1 && board[6] == 1){
+					return 1;
+				}
+				if(board[0] == 2 && board[3] == 2 && board[6] == 2){
+					return 2;
+				}
+				//second column
+				if(board[1] == 1 && board[4] == 1 && board[7] == 1){
+					return 1;
+				}
+				if(board[1] == 2 && board[4] == 2 && board[7] == 2){
+					return 2;
+				}
+				//third column
+				if(board[2] == 1 && board[5] == 1 && board[8] == 1){
+					return 1;
+				}
+				if(board[2] == 2 && board[5] == 2 && board[8] == 2){
+					return 2;
+				}
+				//right to left diagonal
+				if(board[0] == 1 && board[4] == 1 && board[8] == 1){
+					return 1;
+				}
+				if(board[0] == 2 && board[4] == 2 && board[8] == 2){
+					return 2;
+				}
+				//left to right diagonal
+				if(board[2] == 1 && board[4] == 1 && board[6] == 1){
+					return 1;
+				}
+				if(board[2] == 2 && board[4] == 2 && board[6] == 2){
+					return 2;
+				}
+				//check for tie game
+				var count = 0;
+				for(var x=0; x<=8; x++){
+					if(board[x] != 0){
+						count++;
+					}
+				}
+				if(count == 8){
+					console.info("tie game!");
+					reset();
+					return 3;
+				}	
+				return 0;
+			}
+			function computerMove(){
+				console.info(board);
+				var randomnumber=Math.floor(Math.random()*9);
+				console.info(randomnumber);
+				if(board[randomnumber] == 0)
+				{
+					board[randomnumber] = 2
+					document.getElementById(randomnumber).innerText = "O";
+					var winner = checkForWin();
+					console.info("winner is " + winner);
+					if(winner != 0){
+						if(gameOver(winner)){
+							return;
+						}
+					}
+					return
+				}
+				computerMove();				
+			}
+		</script>
+	</head>
+	<body>
+		<div data-role="page" id="one" data-title="Tic Tac Toes">
+			<div data-role="header">
+				<h1>TicTacToes</h1>
+			</div><!-- /header -->
+			
+			<div data-role="content">
+				<table class="center">
+					<tr><td id="0" class="border-right" onclick="move(this.id);">&nbsp</td><td id="1" class="border-right" onclick="move(this.id);">&nbsp</td><td id="2" onclick="move(this.id);">&nbsp</td></tr>
+					<tr><td id="3" class="border-right border-top" onclick="move(this.id);">&nbsp</td><td id="4" class="border-right border-top" onclick="move(this.id);">&nbsp</td><td id="5" class="border-top" onclick="move(this.id);">&nbsp</td></tr>
+					<tr><td id="6" class="border-right border-top" onclick="move(this.id);">&nbsp</td><td id="7" class="border-right border-top" onclick="move(this.id);">&nbsp</td><td id="8" class="border-top" onclick="move(this.id);">&nbsp</td></tr>
+				</table>
+				<a href="#two" data-role="button" data-rel="dialog" data-transition="pop"  data-icon="info">View Record</a>
+			</div>
+			
+			<div data-role="footer">
+				
+			</div>
+		</div>
+		<div data-role="page" id="two" data-title="Record">
+			<div data-role="header">
+				<h1>Record</h1>
+			</div><!-- /header -->
+			
+			<div data-role="content">
+				<table class="center">
+					<tr><td><h3>You:</h3></td><td><h3><span id="score-human">0</span></h3></td></tr>
+					<tr><td><h3>Computer:</h3></td><td><h3><span id="score-computer">0</span></h3></td></tr>
+					<tr><td><h3>Tie:</h3></td><td><h3><span id="score-tie">0</span></h3></td></tr>
+				</table>
+				<div data-role="controlgroup">
+					<a href="#one" data-role="button" data-icon="back">Back To Game</a>
+					<a href="#" data-role="button" data-icon="delete" onclick="javascript:clearScore();">Clear Record</a>
+				</div>
+			</div>
+			
+			<div data-role="footer">
+				
+			</div>
+		</div>
+	</body>
+</html>
