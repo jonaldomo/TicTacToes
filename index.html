@@ -33,39 +33,32 @@
 				document.getElementById("score-tie").innerText = 0;
 			}
 			function updateScore(player){
-				console.info("update score for player " + player);
 				if(player == 1){
-					console.info(document.getElementById("score-computer"));
 					var score = parseInt(document.getElementById("score-human").innerText);
-					console.info("human score is " + score);
 					score++;
 					document.getElementById("score-human").innerText = score;
 				}
 				if(player == 2){
-					console.info(document.getElementById("score-computer"));
 					var score = parseInt(document.getElementById("score-computer").innerText);
 					score++;
-					console.info("computer score is " + score);
 					document.getElementById("score-computer").innerText = score;
 				}
 				if(player == 3){
-					console.info(document.getElementById("score-tie"));
 					var score = parseInt(document.getElementById("score-tie").innerText);
 					score++;
-					console.info("tie score is " + score);
 					document.getElementById("score-tie").innerText = score;
 				}
 			}
 			var board = Array(0, 0, 0, 0, 0, 0, 0, 0, 0);
+			var who = 0;
 			function reset(){
+				who = 0;
 				for(var x=0; x<=8; x++){
-					console.info('reseting board' + x);
 					board[x]=0;
-					document.getElementById(x).innerText = "";
+					document.getElementById(x).innerHTML = "";
 				}
 			}
 			function gameOver(player){
-				console.info("check for win" + player);
 				updateScore(player);
 				if(player == 1){
 					alert("you won!");
@@ -85,20 +78,21 @@
 				return false;				
 			}
 			function move(id){
+				if(who == 2){
+					return;
+				}
 				if(board[id]!=0){
 					return;
 				}
-				console.info("placing move " + id);
-				document.getElementById(id).innerText = "X";
+				document.getElementById(id).innerHTML = "<img src='green.png'>";
 				board[id] = 1;
-				console.info(board);
 				var winner = checkForWin();
-				console.info("winner is " + winner);
 				if(winner != 0){
 					gameOver(winner);
 					return;
-				}			
-				computerMove()
+				}
+				who = 2;
+				setTimeout("computerMove()", 1000);
 			}
 			function checkForWin(){
 				//top row
@@ -165,30 +159,27 @@
 					}
 				}
 				if(count == 8){
-					console.info("tie game!");
 					reset();
 					return 3;
 				}	
 				return 0;
 			}
 			function computerMove(){
-				console.info(board);
 				var randomnumber=Math.floor(Math.random()*9);
-				console.info(randomnumber);
 				if(board[randomnumber] == 0)
 				{
 					board[randomnumber] = 2
-					document.getElementById(randomnumber).innerText = "O";
+					document.getElementById(randomnumber).innerHTML = "<img src='purple.png'>";
 					var winner = checkForWin();
-					console.info("winner is " + winner);
 					if(winner != 0){
 						if(gameOver(winner)){
 							return;
 						}
 					}
+					who = 1;
 					return
 				}
-				computerMove();				
+				computerMove();			
 			}
 		</script>
 	</head>
@@ -208,7 +199,15 @@
 			</div>
 			
 			<div data-role="footer">
-				
+				<script type="text/javascript">
+				var admob_vars = {
+				 pubid: 'a14eda9e92e021e', // publisher id
+				 bgcolor: '000000', // background color (hex)
+				 text: 'FFFFFF', // font-color (hex)
+				 test: false // test mode, set to false to receive live ads
+				};
+				</script>
+				<script type="text/javascript" src="http://mmv.admob.com/static/iphone/iadmob.js"></script>
 			</div>
 		</div>
 		<div data-role="page" id="two" data-title="Record">
