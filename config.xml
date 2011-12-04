@@ -18,7 +18,7 @@
      <preference name="permissions" value="none"/>
     
      <!-- if a single icon is specified then Build will use it for all platforms -->
-    <icon src="icons/icon.png" />
+    <icon src="icons/icon-256.png" />
 
 	<!-- iOS requires specific dimensions for splash screens; classic iPhone screens, Retina 
       Screens, and iPad screen respectively -->
@@ -27,8 +27,8 @@
     <icon src="icons/icon-iphone-114.png" width="114" height="114"/> 
 
 	<!-- Android requires specific dimensions; ldpi, mdpi, and hdpi respecitvely. --> 
-    <icon src="icons/icon-android-36.png" width="36" height="36"/> 
-    <icon src="icons/icon-android-48.png" width="48" height="48"/> 
-    <icon src="icons/icon-android-72.png" width="72" height="72"/> 
+    <icon src="icons/icon-36.png" width="36" height="36"/> 
+    <icon src="icons/icon-48.png" width="48" height="48"/> 
+    <icon src="icons/icon-72.png" width="72" height="72"/> 
 
 </widget>

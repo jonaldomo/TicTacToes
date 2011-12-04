@@ -61,17 +61,17 @@
 			function gameOver(player){
 				updateScore(player);
 				if(player == 1){
-					alert("you won!");
+					alert("You Win!");
 					reset();
 					return true;
 				}
 				if(player == 2){
-					alert("computer won!");
+					alert("You Lost");
 					reset();
 					return true;
 				}
 				if(player == 3){
-					alert("tie game!");
+					alert("It's A Tie");
 					reset();
 					return true;
 				}
@@ -158,7 +158,7 @@
 						count++;
 					}
 				}
-				if(count == 8){
+				if(count == 9){
 					reset();
 					return 3;
 				}	
